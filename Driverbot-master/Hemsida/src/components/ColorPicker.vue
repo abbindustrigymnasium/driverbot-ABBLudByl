@@ -1,19 +1,17 @@
 <template>
-  <div>
-    <v-col cols="12">
-    </v-col>
-      <v-btn @click="send('f')"> Forward </v-btn>
-    <!-- <v-col cols="12">
-      <v-slider v-model="color.saturation" min="0" max="100" label="Saturation"></v-slider>
-    </v-col>-->
-    <v-col cols="12">
-    </v-col>
-  </div>
+  <container fluid>
+    <v-row justify="center">
+      <v-col cols="12">
+      </v-col>
+    <v-btn color="success" @click="send('F')">Forward</v-btn>
+    </v-row>
+    <v-col cols="12"></v-col>
+  </container>
 </template>
 
 <script>
 var mqtt = require("mqtt"),
-/* eslint-disable */
+  /* eslint-disable */
   url = require("url");
 
 export default {
@@ -25,10 +23,10 @@ export default {
     connected: false,
     client: "1032985790821357t08792345098123570892357809832157",
     user: "ludvig.bylund@abbindustrigymnasium.se",
-    pass: "qazwsxedcrfvtgb",
+    pass: "qazwsxedcrfvtgb"
   }),
   methods: {
-        connect() {
+    connect() {
       var mqtt_url = "maqiatto.com";
       var url = "mqtt://" + mqtt_url;
       var options = {
@@ -64,10 +62,11 @@ export default {
       this.connected = true;
     },
     send(message) {
-      this.client.publish("ludvig.bylund@abbindustrigymnasium.se/test", message);
+      this.client.publish(
+        "ludvig.bylund@abbindustrigymnasium.se/test",
+        message
+      );
     }
-
-  },
-
+  }
 };
 </script>
