@@ -1,12 +1,18 @@
 <template>
-  <container fluid>
-    <v-row justify="center">
-      <v-col cols="12">
+  <v-container class="container">
+    <v-row align-center justify-center>
+      <v-col>
+        <div>
+          <v-btn large class="headline" color="success" @click="send('F')">Forward</v-btn>
+        </div>
+        <div>
+          <v-btn large class="headline" color="success" @click="send('L')">Left</v-btn>
+          <v-btn large class="headline" color="success" @click="send('B')">Backward</v-btn>
+          <v-btn large class="headline" color="success" @click="send('R')">Right</v-btn>
+        </div>
       </v-col>
-    <v-btn color="success" @click="send('F')">Forward</v-btn>
     </v-row>
-    <v-col cols="12"></v-col>
-  </container>
+  </v-container>
 </template>
 
 <script>
@@ -17,7 +23,6 @@ var mqtt = require("mqtt"),
 export default {
   created() {
     this.connect();
-    this.send("FishPog");
   },
   data: () => ({
     connected: false,
@@ -70,3 +75,8 @@ export default {
   }
 };
 </script>
+<style>
+.container {
+  padding: 17%;
+}
+</style>
