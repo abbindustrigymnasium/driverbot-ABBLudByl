@@ -2,7 +2,7 @@
   <v-app id="content">
     <v-toolbar app id="toolbar">
       <v-toolbar-title class="headline">
-        <span>TheSuperEpicLegoRobot,</span>
+        <span>TheSuperEpicLegoRobot</span>
         <span class="font-weight-light">OfSuperMegaEpicness</span>
       </v-toolbar-title>
     </v-toolbar>

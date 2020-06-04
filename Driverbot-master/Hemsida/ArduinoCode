@@ -1,0 +1,114 @@
+#include <Arduino.h>
+#include "EspMQTTClient.h"
+#include <WiFiManager.h>
+#include <ESP8266WebServer.h>
+#include <ESP8266WiFi.h>
+#include <Servo.h>
+
+#define motorPinRightDir  0//D2
+#define motorPinRightSpeed 5//D1
+#define motorPinLeftDir 2
+#define motorPinLeftSpeed 4
+
+Servo servo;
+
+void onConnectionEstablished();
+
+EspMQTTClient MQTTclient(
+  "Telia-A65C65",           // Wifi ssid
+  "C75A0E0027",            // Wifi password
+  "maqiatto.com",       // MQTT broker ip
+  1883,             // MQTT broker port
+  "ludvig.bylund@abbindustrigymnasium.se",         // MQTT username
+  "qazwsxedcrfvtgb",       // MQTT password
+  "Poggers",          // Client name
+  onConnectionEstablished, // Connection established callback
+  true,             // Enable web updater
+  true              // Enable debug messages
+);
+
+int speed = 0;
+int dir = 1;
+int angle = 90;
+
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(motorPinRightDir, OUTPUT);
+  pinMode(motorPinRightSpeed, OUTPUT);
+  pinMode(motorPinLeftDir, OUTPUT);
+  pinMode(motorPinLeftSpeed, OUTPUT);
+
+  servo.attach(15);
+  servo.write(angle);
+
+  Serial.begin(115200);
+}
+
+void onConnectionEstablished()
+{
+  MQTTclient.subscribe("ludvig.bylund@abbindustrigymnasium.se/test", [] (const String &payload)
+  {
+    Serial.println(payload);
+    
+    if (payload == "F") {
+      if (speed == 0) {
+        speed = 1024;
+        dir = 1;
+      }
+      else if (speed == 1024) {
+        speed = 0;
+        dir = 1;
+      }
+     }
+     
+    if (payload == "B") {
+      if (speed == 0) {
+        speed = 1024;
+        dir = 0;
+      }
+      else if (speed == 1024) {
+        speed = 0;
+        dir = 0;
+      }     
+     }
+     
+    if (payload == "R") {
+      if (angle == 0) {
+        angle = 90;
+      }
+      else if (angle == 90) {
+        angle = 180;
+      }
+      else if (angle == 180) {
+        angle = 90;
+      }
+     }
+     
+    if (payload == "L") {
+      if (angle == 180) {
+        angle = 90;
+      }
+      else if (angle == 90) {
+        angle = 0;
+      }
+      else if (angle == 0) {
+        angle = 90;
+      }
+     }
+     
+    if (payload == "S") {
+      angle = 90;
+      speed = 0;
+     }
+  });
+    
+  MQTTclient.publish("ludvig.bylund@abbindustrigymnasium.se/test", "Arduino connected");
+}
+
+void loop() {
+  digitalWrite(motorPinRightDir, dir);
+  analogWrite(motorPinRightSpeed, speed);
+  servo.write(angle);
+  
+  MQTTclient.loop();
+}

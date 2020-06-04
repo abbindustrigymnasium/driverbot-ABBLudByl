@@ -7,8 +7,11 @@
         </div>
         <div>
           <v-btn large class="headline" color="success" @click="send('L')">Left</v-btn>
-          <v-btn large class="headline" color="success" @click="send('B')">Backward</v-btn>
+          <v-btn large class="headline" color="success" @click="send('S')">Stop</v-btn>
           <v-btn large class="headline" color="success" @click="send('R')">Right</v-btn>
+        </div>
+        <div>
+          <v-btn large class="headline" color="success" @click="send('B')">Backward</v-btn>
         </div>
       </v-col>
     </v-row>
